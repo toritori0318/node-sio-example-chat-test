@@ -26,7 +26,7 @@ describe('basicテスト', function() {
     async.waterfall(
       [
         function userA(callback) {
-          var nickname = 'tori';
+          var nickname = 'hoge';
           var parameter = { nick: nickname }
           helper.login_and_clsocket(parameter, function(socket) {
             usersocket[nickname] = socket;
@@ -57,7 +57,14 @@ describe('basicテスト', function() {
           });
         },
         function finish(callback) {
-          done();
+          setTimeout(function () {
+            // userA の 'user message'が呼び出されることをテスト
+            assert.equal(true,  spy_A.calledOnce)
+            // userB の 'user message'が呼び出されないことをテスト
+            assert.equal(false, spy_B.called)
+
+            done();
+          }, 50);
         },
       ]
     );
@@ -65,21 +72,11 @@ describe('basicテスト', function() {
 
   // すべてのテスト終了後
   after(function(done) {
-
-    setTimeout(function () {
-      // userA の 'user message'が呼び出されることをテスト
-      assert.equal(true,  spy_A.calledOnce)
-      // userB の 'user message'が呼び出されないことをテスト
-      assert.equal(false, spy_B.called)
-
-      // connection close
-      for (var key in usersocket) {
-          usersocket[key].disconnect();
-      }
-
-      done();
-
-    }, 50);
+    // connection close
+    for (var key in usersocket) {
+        usersocket[key].disconnect();
+    }
+    done();
   });
 
 });
