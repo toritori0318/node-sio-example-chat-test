@@ -1,0 +1,25 @@
+doctype 5
+html
+  head
+    link(href='/stylesheets/style.css', rel='stylesheet')
+    script(src='http://code.jquery.com/jquery-1.6.1.min.js')
+    script
+      // dom manipulation
+      $(function () {
+        $('#set-nickname').submit(function (ev) {
+          $('#set-nickname').submit();
+        });
+      });
+  body
+    #chat
+      #nickname
+        form.wrap#set-nickname
+          p Please type in your nickname and press enter.
+          input(name='nick',id='nick')
+          p#nickname-err Nickname already in use
+      #messages
+        #nicknames
+        #lines
+      form#send-message
+        input#message
+        button Send
